@@ -1,6 +1,7 @@
 package ru.alexov.altarics.model.services;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
@@ -23,23 +24,23 @@ public class EmployeeServiceImpl implements EmployeeService {
 	}
 
 	@Override
-	public Collection<Employee> getAll() {
+	public List<Employee> getAll() {
 		
 		return employeeRep.findAll();
 	}
 
 	@Override
-	public Optional<Employee> getById(long id) {
+	public Employee getById(long id) {
 		
 		 Optional<Employee> opempl = employeeRep.findById(id);
 		 Employee emp = opempl.get();
-		 return opempl;
+		 return emp;
 		 
 	}
 
 	@Override
 	public void update(Employee dep) {
-		// TODO Auto-generated method stub
+		employeeRep.saveAndFlush(dep);
 
 	}
 
