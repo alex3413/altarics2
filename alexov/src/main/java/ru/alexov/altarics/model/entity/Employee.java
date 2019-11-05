@@ -23,18 +23,12 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 enum Position {manager, boss, developer, yardman}
 @Entity
 @Table(name="Employee")
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-
+//@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Employee implements Serializable {
-
-	
-	
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	@Column(name="id",nullable=false)
 	private long id;
-	
-	
 	@Column(name="name")
 	private String name;
 	@Column

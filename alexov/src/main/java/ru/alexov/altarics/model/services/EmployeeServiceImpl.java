@@ -26,9 +26,9 @@ public class EmployeeServiceImpl implements EmployeeService {
 	}
 
 	@Override
-	public List<Employee> getAll() {
+	public List<Employee> getAllbydep( long idDep) {
 		
-		return employeeRep.findAll();
+		return employeeRep.findAllByIdDep(idDep);
 	}
 
 	@Override
@@ -48,44 +48,42 @@ public class EmployeeServiceImpl implements EmployeeService {
 
 	@Override
 	public void delete(long id) {
-		// TODO Auto-generated method stub
+	employeeRep.deleteById(id);
 
 	}
-
+	
 	@Override
-	public List<Employee> getAll(long idDep) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void getOutEmpl(Calendar date) {
-		// TODO Auto-generated method stub
+	public void getOutEmpl(Employee emp, Calendar date) {
+		emp.setDateofgetout(date);
+		employeeRep.saveAndFlush(emp);
 		
 	}
 
 	@Override
-	public void transferDepEmpl(Department dep) {
-		// TODO Auto-generated method stub
+	public void transferDepEmpl(Employee emp, Department dep) {
+		emp.setDep(dep);
+		employeeRep.saveAndFlush(emp);
 		
 	}
 
 	@Override
-	public void transerDepEmplAll(Department dep) {
-		// TODO Auto-generated method stub
+	public void transerDepEmplAll(Long dep, Department newdep) {
+		List<Employee> list = getAllbydep(dep);
+		for(Employee e: list)
+			e.setDep(newdep);
 		
 	}
 
 	@Override
 	public Employee getBossofEmpl(Employee emp) {
-		// TODO Auto-generated method stub
-		return null;
+		return employeeRep.findByDepAndBossdep(emp.getDep(), true);
+		
 	}
 
 	@Override
 	public Employee getByNameAndEmail(String name, String email) {
-		// TODO Auto-generated method stub
-		return null;
+		
+		return employeeRep.findByNameAndEmail(name, email);
 	}
 
 }

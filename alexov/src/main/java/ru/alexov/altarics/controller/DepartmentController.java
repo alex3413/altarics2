@@ -37,13 +37,13 @@ public class DepartmentController {
 		return dep;
 		
 	}
-	@GetMapping(value ="all", produces ="applicatinn/json")
+	@GetMapping(value ="all")
 	@ResponseBody
 	public Collection<Department> getAll(){
 		return department.getAll();
 		
 	}
-	@GetMapping(value ="{id}")//, produces ="applicatinn/json")
+	@GetMapping(value ="{id}")
 	@ResponseBody
 	public Department getById(@PathVariable("id") Long id){ 
 		return department.getById(id);
@@ -52,7 +52,7 @@ public class DepartmentController {
 	public void update(@RequestBody Department dep) {
 		department.update(dep);		
 	}
-	@DeleteMapping(value ="{id}", produces ="applicatinn/json")
+	@DeleteMapping(value ="{id}")
 	public void delete(long id) {
 		
 	}
@@ -60,31 +60,31 @@ public class DepartmentController {
 	public void rename(@PathVariable("name") String name, @RequestBody String newname) {
 		department.rename(name, newname);
 	}
-	@GetMapping(value ="sub/{id}", produces ="applicatinn/json")
+	@GetMapping(value ="sub/{id}")
 	public Collection<Department> getsubDep(@PathVariable("id") long idDep){
 	
 		return department.getsubDep(idDep);
 	}
-	@GetMapping(value ="suball/{id}", produces ="applicatinn/json")
+	@GetMapping(value ="suball/{id}")
 	public Collection<Department> getsubDepAll(@PathVariable("id") long idDep){
 	
 		return department.getsubDepAll(idDep);
 	}
-	@GetMapping(value ="parent/{id}", produces ="applicatinn/json")
+	@GetMapping(value ="parent/{id}")
 	public Collection<Department> getParentDep(@PathVariable("id") long idDep){
 		return department.getParentDep(idDep);
 		
 	}
-	@GetMapping(value ="name", produces ="applicatinn/json")
+	@GetMapping(value ="name")
 	public Department getByName(@PathVariable("name")String name) {
 		
 		return department.getByName(name);
 	}
-	/*@GetMapping(value ="salary/{id}", produces ="applicatinn/json")
+	@GetMapping(value ="salary/{id}", produces ="applicatinn/json")
 	public Double totalSalaryDep(@PathVariable("id") Long idDep) {
-		Department dep=department.getById(idDep).get();
+		Department dep=department.getById(idDep);
 		return department.totalSalaryDep(dep);
 		
 	}
-*/
+
 }
