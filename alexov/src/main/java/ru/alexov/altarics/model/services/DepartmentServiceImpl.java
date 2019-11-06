@@ -11,6 +11,7 @@ import java.util.Set;
 import javax.persistence.Query;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 
@@ -121,6 +122,7 @@ public class DepartmentServiceImpl implements DepartmentService {
 	}
 
 	@Override
+	@Scheduled(fixedDelay = 30000)
 	public Double totalSalaryDep(Department dep) {
 		dep.setTotalSalary();
 		departmentRep.saveAndFlush(dep);		 
