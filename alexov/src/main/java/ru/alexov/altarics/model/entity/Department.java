@@ -14,6 +14,9 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.PrimaryKeyJoinColumn;
+import javax.persistence.SecondaryTable;
+import javax.persistence.SecondaryTables;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -23,6 +26,11 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 @Table(name="Department")
+@SecondaryTables({
+	@SecondaryTable(name="salarys", pkJoinColumns= {
+			@PrimaryKeyJoinColumn(name="id_dep",referencedColumnName = "dep_id")
+	})
+})
 //@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Department implements Serializable{
 	@Id
@@ -35,9 +43,11 @@ public class Department implements Serializable{
 	@Column(name = "parent_id")
 	private Long parentdepId;
 	@Column	
-	@OneToMany(mappedBy="dep",fetch =FetchType.LAZY,cascade=CascadeType.ALL)
+	@OneToMany(mappedBy="dep",fetch =FetchType.EAGER,cascade=CascadeType.ALL)
 	//@JsonIgnore
 	private List<Employee> empList;
+	@Column(table = "salarys")
+	private Double totalSalary;
 
 	public Department() {}
 	
@@ -47,6 +57,17 @@ public class Department implements Serializable{
 		this.name = name;
 		this.parentdepId = parentdepId;
 		this.empList = empList;
+	}
+
+	public Double getTotalSalary() {
+		return totalSalary;
+	}
+
+	public void setTotalSalary() {
+		double total=0;
+		for(Employee e: empList)
+			total+=e.getSalary();
+		this.totalSalary = total;
 	}
 
 	public List<Employee> getEmpList() {

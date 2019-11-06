@@ -122,11 +122,9 @@ public class DepartmentServiceImpl implements DepartmentService {
 
 	@Override
 	public Double totalSalaryDep(Department dep) {
-		List<Employee> list = dep.getEmpList();
-		double salary=0;
-		for(Employee e: list)
-			System.out.println (salary +=e.getSalary());
-		return salary;
+		dep.setTotalSalary();
+		departmentRep.saveAndFlush(dep);		 
+		return dep.getTotalSalary();
 	}
 
 	
