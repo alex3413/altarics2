@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -41,13 +43,13 @@ public class EmployeeController {
 		return employee.getById(id);
 	} 
 	@RequestMapping(value ="{id}", method = RequestMethod.PUT, produces ="applicatinn/json")
-	public void updateEmp(@PathVariable("id") long id, @RequestBody Employee name) {
+	public void updateEmp(@PathVariable("id") long id, @Valid@RequestBody Employee name) {
 			Employee emp =employee.getById(id);
 			emp.setName(name.getName());
 		employee.update(emp);
 	}
 	@RequestMapping(method = RequestMethod.POST, produces ="applicatinn/json")
-	public void addEmployee(@RequestBody Employee emp) {
+	public void addEmployee(@Valid@RequestBody Employee emp) {
 		employee.addEmployee(emp);
 	}
 	@PutMapping(value= "getout/{id}")

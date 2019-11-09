@@ -43,7 +43,7 @@ public class Department implements Serializable{
 	@Column(name = "parent_id")
 	private Long parentdepId;
 	@Column	
-	@OneToMany(mappedBy="dep",fetch =FetchType.EAGER,cascade=CascadeType.ALL)
+	@OneToMany(mappedBy="dep",fetch =FetchType.EAGER)
 	//@JsonIgnore
 	private List<Employee> empList;
 	@Column(table = "salarys")

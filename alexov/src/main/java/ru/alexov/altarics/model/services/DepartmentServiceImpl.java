@@ -122,12 +122,17 @@ public class DepartmentServiceImpl implements DepartmentService {
 	}
 
 	@Override
-	@Scheduled(fixedDelay = 30000)
-	public Double totalSalaryDep(Department dep) {
+		public Double totalSalaryDep(Department dep) {
 		dep.setTotalSalary();
 		departmentRep.saveAndFlush(dep);		 
 		return dep.getTotalSalary();
 	}
-
+	@Scheduled(fixedDelay = 30000)
+	public void setTotalSalaryDep() {
+		List<Department> lst = departmentRep.findAll();
+		for(Department d: lst)
+			totalSalaryDep(d);
+		
+	}
 	
 }

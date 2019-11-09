@@ -44,7 +44,7 @@ public class DepartmentController {
 		
 	}
 	@GetMapping(value ="{id}")
-	@ResponseBody
+	
 	public Department getById(@PathVariable("id") Long id){ 
 		return department.getById(id);
 	}
