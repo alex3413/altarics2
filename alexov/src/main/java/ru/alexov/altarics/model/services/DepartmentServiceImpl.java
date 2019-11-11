@@ -49,6 +49,7 @@ public class DepartmentServiceImpl implements DepartmentService {
 
 	@Override
 	public void delete(long id) {
+		
 		departmentRep.deleteById(id);
 
 	}

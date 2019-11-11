@@ -15,19 +15,27 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Email;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.Past;
 import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
+import ru.alexov.altarics.validanno.WorkingAge;
 
 
 
 enum Position {manager, boss, developer, yardman}
 @Entity
 @Table(name="Employee")
-//@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Employee implements Serializable {
+	private static final int WORKING_AGE_MIN = 2001; 
+	private static final int WORKING_AGE_MAX = 1956; 
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	@Column(name="id",nullable=false)
@@ -39,12 +47,16 @@ public class Employee implements Serializable {
 	@Pattern(regexp="^[а-яА-ЯёЁ]+$", message= "неверные данные")
 	private String surname;
 	@Column
+	@Pattern(regexp="^[а-яА-ЯёЁ]+$", message= "неверные данные")
 	private String patronymic=null;
 	@Column
 	private char sex;
 	@Column
+	@WorkingAge(MinAge =2001, MaxAge=1954)
 	private Calendar dataOfBirthday;
 	@Column
+	@Pattern(regexp="^[0-9()+]+$")
+	@Size (min=9, max=11)
 	private String tel;
 	@Column
 	@Email
@@ -56,14 +68,14 @@ public class Employee implements Serializable {
 	@Column
 	private Position position;
 	@Column
+	@Min(0)
 	private Double salary;
 	@Column
-	private boolean bossdep;
+	private boolean bossdep=false;
 
 	@ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.MERGE)
 	@JoinColumn(name ="dep_id")
-	//@JsonIgnore
-	//@JsonProperty(value = "dep_id")
+	@JsonBackReference
 	private Department dep;
 	
 	public Employee() {}
@@ -145,6 +157,9 @@ public class Employee implements Serializable {
 
 
 	public void setDataOfBirthday(Calendar dataOfBirthday) {
+		if(dataOfBirthday.get(Calendar.DAY_OF_YEAR)>WORKING_AGE_MIN||
+				dataOfBirthday.get(Calendar.DAY_OF_YEAR)<WORKING_AGE_MAX)
+			this.dataOfBirthday=null;
 		this.dataOfBirthday = dataOfBirthday;
 	}
 

@@ -19,6 +19,7 @@ import ru.alexov.altarics.model.entity.Department;
 import ru.alexov.altarics.model.services.DepartmentService;
 import ru.alexov.altarics.model.services.EmployeeService;
 
+
 @RestController
 @RequestMapping("department")
 public class DepartmentController {
@@ -53,7 +54,10 @@ public class DepartmentController {
 		department.update(dep);		
 	}
 	@DeleteMapping(value ="{id}")
-	public void delete(long id) {
+	public void delete(long id) throws Exception {
+		if(department.getById(id).getEmpList().isEmpty())
+			throw new IllegalArgumentException();
+		department.delete(id); 
 		
 	}
 	@PutMapping(value ="{name}", produces ="applicatinn/json")
