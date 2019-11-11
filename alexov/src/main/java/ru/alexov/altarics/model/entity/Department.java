@@ -19,6 +19,7 @@ import javax.persistence.SecondaryTable;
 import javax.persistence.SecondaryTables;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -45,6 +46,7 @@ public class Department implements Serializable{
 	@Column	
 	@OneToMany(mappedBy="dep",fetch =FetchType.EAGER)
 	//@JsonIgnore
+	@JsonBackReference
 	private List<Employee> empList;
 	@Column(table = "salarys")
 	private Double totalSalary;
